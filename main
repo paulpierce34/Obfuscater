@@ -17,8 +17,8 @@ $Count = 0
 for ($i = 0; $i -lt $Stringtest.Length; $i += 1){
 
 ## Create random variable names
-$Varname = $AllVariables | Get-Random -count 3
-$Newvarname = ($Varname -join '').Trim()
+$Varname = $AllVariables | Get-Random -count 3 ## Create random variable names
+$Newvarname = ($Varname -join '').Trim() ## join into one line and remove whitespaces
 #write-host -foregroundcolor yellow $Newvarname
 
 
@@ -56,8 +56,27 @@ $Fullarray += "+"
 
 }
 
+
+write-host $Count
+if ($Count -eq $Stringtest.Length){
+
+$FinalLength = $Stringtest.Length -1
+
+$newstring = $Stringtest.Substring($FInalLength, 1)
+#write-host -foregroundcolor green $Count
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += "+"
+
 }
 
+}
+
+
+## Essentially the END block of script
 $newarray = $Fullarray -replace "\+$", "" ## replace the final '+' sign with nothing
 $Count = 0
 return $newarray
