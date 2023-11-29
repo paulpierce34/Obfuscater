@@ -1,5 +1,7 @@
 ## Take in a huge ass string, chop it into different chunked character arrays every 10 characters, and then re-combine at the end into a cohesive script with '+' to add them all together one by one
 
+## Next task is to figure out how to combine all these separate variables and the '+' signs into one cohesive command or expression that can be invoked
+
 $Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
 
@@ -9,6 +11,8 @@ $Allstrings = $Stringtest.tochararray()
 $Allvariables = @("a", "b", "c","d", "e", "f","g", "h", "j","k", "l", "m","n", "o", "p","q", "r", "s","t", "u", "v","w", "x", "y","z", "AB", "CD", "EF","GH", "IJ", "KL","MN", "OP", "QR","ST", "UV", "WX","YZ", "UV", "WX","YZ")
 
 $Count = 0
+
+$NewVarArray = @()
 
 ## use get-random 
 
@@ -27,6 +31,8 @@ $Newvarname = ($Varname -join '').Trim() ## join into one line and remove whites
 ## This part is strictly for capturing the first few characters as well
 if ($Count -eq 0){
 
+$Newvararray += $NewVarName
+
 $newstring = $Stringtest.Substring($Count, 5)
 #write-host -foregroundcolor green $Count
 $Fullarray += "$"
@@ -43,6 +49,8 @@ $Fullarray += "+"
 $Count += 1
 ## Majority of script happens here
 if ($Count % 5 -eq 0){
+
+$Newvararray += $NewVarName
 
 $newstring = $Stringtest.Substring($Count, 5)
 
@@ -61,6 +69,8 @@ write-host $Count
 if ($Count -eq $Stringtest.Length){
 
 $FinalLength = $Stringtest.Length -1
+
+$Newvararray += $NewVarName
 
 $newstring = $Stringtest.Substring($FInalLength, 1)
 #write-host -foregroundcolor green $Count
@@ -83,10 +93,13 @@ return $newarray
 $Fullarray = $null
 $newarray = $null
 
+## Now that we have an array with all of the variable names we just loaded into memory (actually may need to use invoke-expression to load them into memory), let's combine them all
+return $newvararray
 
 
 
 
+# $var = -join("Hello", " ", "world");    this writes hello world
 
 
 ## Dynamically create substring arrays and assign to new name variables
