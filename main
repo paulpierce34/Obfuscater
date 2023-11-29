@@ -1,0 +1,107 @@
+## Take in a huge ass string, chop it into different chunked character arrays every 10 characters, and then re-combine at the end into a cohesive script with '+' to add them all together one by one
+
+$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
+
+
+
+$Allstrings = $Stringtest.tochararray()
+
+$Allvariables = @("a", "b", "c","d", "e", "f","g", "h", "j","k", "l", "m","n", "o", "p","q", "r", "s","t", "u", "v","w", "x", "y","z", "AB", "CD", "EF","GH", "IJ", "KL","MN", "OP", "QR","ST", "UV", "WX","YZ", "UV", "WX","YZ")
+
+$Count = 0
+
+## use get-random 
+
+
+## Now we will try to create a separate array for every 5 characters
+for ($i = 0; $i -lt $Stringtest.Length; $i += 1){
+
+## Create random variable names
+$Varname = $AllVariables | Get-Random -count 3
+$Newvarname = ($Varname -join '').Trim()
+#write-host -foregroundcolor yellow $Newvarname
+
+
+
+
+## This part is strictly for capturing the first few characters as well
+if ($Count -eq 0){
+
+$newstring = $Stringtest.Substring($Count, 5)
+#write-host -foregroundcolor green $Count
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += "+"
+
+}
+
+
+
+$Count += 1
+## Majority of script happens here
+if ($Count % 5 -eq 0){
+
+$newstring = $Stringtest.Substring($Count, 5)
+
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += "+"
+
+}
+
+}
+
+$newarray = $Fullarray -replace "\+$", "" ## replace the final '+' sign with nothing
+$Count = 0
+return $newarray
+$Fullarray = $null
+$newarray = $null
+
+
+
+
+
+
+
+## Dynamically create substring arrays and assign to new name variables
+
+
+<#
+Substring usage:
+
+substring(StartIndex)
+substring(StartIndex, length)
+$stringObject.Substring(int startIndex, int length)
+
+#>
+
+
+<#
+if ($Count % 10 -eq 0){
+
+
+write-host $Count
+write-host $SingleString
+
+
+
+}
+#>
+
+
+<#
+
+if ($i -eq $Stringtest.Length){
+
+write-host "Final number!" $i
+
+}
+
+#>
