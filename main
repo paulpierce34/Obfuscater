@@ -2,8 +2,9 @@
 
 ## Next task is to figure out how to combine all these separate variables and the '+' signs into one cohesive command or expression that can be invoked
 
-$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
+#$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
+$Stringtest = "Get-Childitem C:\Users\dejeanj\"
 
 
 $Allstrings = $Stringtest.tochararray()
@@ -85,7 +86,7 @@ $newarray = $Fullarray -replace "\+$", "" ## replace the final '+' sign with not
 $Count = 0
 return $newarray
 Invoke-Expression $newarray
-$Fullarray = $null
+#$Fullarray = $null
 #$newarray = $null
 
 ## Now that we have an array with all of the variable names we just loaded into memory (actually may need to use invoke-expression to load them into memory), let's combine them all
@@ -93,15 +94,23 @@ return $newvararray
 
 $Allvars = $newvararray -replace "^", "$" ## Get all variables into one single array
 
+$SecondAllVars = $Allvars -replace "$", "+" -join ""
+$ThirdAllvars = $SecondallVars -replace "\+$", ""
 
+
+$Finalvariable = Invoke-expression $Thirdallvars
+
+
+Invoke-expression $Finalvariable
+
+<#
 for ($j=0; $j -lt $Allvars.length; $j += 1){
 
 Invoke-expression $Allvars[$j]
 
 }
+#>
 
-
-# $var = -join("Hello", " ", "world");    this writes hello world
 
 ## ='.......   -replace "='.......", ";"
 
@@ -112,3 +121,9 @@ Invoke-expression $Allvars[$j]
 
 
 #$CombinedAll = $NewFinalArray
+
+
+
+## Combine all variables into final string:
+# $Finalstring = $UVmYZ+$WXdw+$IJKLST+$rwST+$UVGHCD+$fSTq+$erl+$KLaf
+# invoke-expression $Finalstring
