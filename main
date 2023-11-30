@@ -75,8 +75,6 @@ $Fullarray += $newstring
 $Fullarray += "'"
 $Fullarray += ";"# Previously was +
 
-write-host "Attempting to invoke the following: $Newvarname"
-
 }
 
 }
@@ -88,10 +86,29 @@ $Count = 0
 return $newarray
 Invoke-Expression $newarray
 $Fullarray = $null
-$newarray = $null
+#$newarray = $null
 
 ## Now that we have an array with all of the variable names we just loaded into memory (actually may need to use invoke-expression to load them into memory), let's combine them all
 return $newvararray
 
+$Allvars = $newvararray -replace "^", "$" ## Get all variables into one single array
+
+
+for ($j=0; $j -lt $Allvars.length; $j += 1){
+
+Invoke-expression $Allvars[$j]
+
+}
+
 
 # $var = -join("Hello", " ", "world");    this writes hello world
+
+## ='.......   -replace "='.......", ";"
+
+#$FinalArray = $newarray -replace "='.......", "+" ## this is too many, some variables are four or 3 characters
+
+#$NewFinalArray = $FinalArray -replace "='.'.", ""
+#return $NewFinalArray
+
+
+#$CombinedAll = $NewFinalArray
