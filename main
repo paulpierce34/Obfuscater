@@ -4,7 +4,7 @@
 
 #$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
-$Stringtest = "ping localhost"
+$Stringtest = "gci C:\Users\admin\Documents; gci C:\Users\admin\Documents; whoami"
 
 
 $Allstrings = $Stringtest.tochararray()
@@ -18,6 +18,21 @@ $NewVarArray = @()
 ## use get-random 
 
 $Stringlength = $Stringtest.Length
+
+
+
+## Add padding, hacky way to accomplish issues
+while ($Stringtest.Length % 5 -ne 0){
+
+$Stringtest += " "
+
+}
+
+
+
+
+
+
 
 
 ## Now we will try to create a separate array for every 5 characters
@@ -57,14 +72,9 @@ $Newvararray += $NewVarName
 
 try {
 $newstring = $Stringtest.Substring($Count, 5)
+write-host "Section 2....  $newstring"
 }
 catch {continue} #write-error "String length is $Stringlength, we are at index $Count and we are trying to create a 5 character substring, which causes an error."}
-
-
-
-
-
-
 
 
 $Fullarray += "$"
@@ -74,39 +84,71 @@ $Fullarray += $newstring
 $Fullarray += "'"
 $Fullarray += ";"
 
-write-host "Section 2....  $newstring"
 
-}
+
+} ## end section 2
 
 ###
 
-# String length: 24
+# String length: x4
 if ($Count -eq ($Stringtest.Length -4)){
-write-host "Attempting -4 logic"
-try {$newstring = $Stringtest.Substring($Stringlength, 4)}
+write-host "Attempting -4 logic, Count: $Count"
+try {$newstring = $Stringtest.Substring($Stringlength, 4)
+
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += ";"
+}
 catch {continue}
 }
 
-# String length: 23
+# String length: x3
 if ($Count -eq ($Stringtest.Length -3)){
-write-host "Attempting -3 logic"
-try {$newstring = $Stringtest.Substring($Stringlength, 3)}
+write-host "Attempting -3 logic, Count: $Count"
+try {$newstring = $Stringtest.Substring($Stringlength, 3)
+
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += ";"}
 catch {continue}
 }
 
-# String length: 22
+# String length: x2
 if ($Count -eq ($Stringtest.Length -2)){
-write-host "Attempting -2 logic"
-try {$newstring = $Stringtest.Substring($Stringlength, 2)}
+write-host "Attempting -2 logic, Count: $Count"
+try {$newstring = $Stringtest.Substring($Stringlength, 2)
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += ";"
+}
+catch {write-host "Failed string length -2"; continue}
+}
+
+# String length: x1
+if ($Count -eq ($Stringtest.Length -1)){
+write-host "Attempting -1 logic, Count: $Count"
+try {$newstring = $Stringtest.Substring($Stringlength, 1)
+$Fullarray += "$"
+$Fullarray += "$Newvarname="
+$Fullarray += "'"
+$Fullarray += $newstring
+$Fullarray += "'"
+$Fullarray += ";"
+
+}
 catch {continue}
 }
 
-# String length: 21
-if ($Count -eq ($Stringtest.Length -1)){
-write-host "Attempting -1 logic"
-try {$newstring = $Stringtest.Substring($Stringlength, 1)}
-catch {continue}
-}
+
 
 ###
 
@@ -145,6 +187,8 @@ $Allvars = $newvararray -replace "^", "$" ## Get all variables into one single a
 $SecondAllVars = $Allvars -replace "$", "+" -join ""
 $ThirdAllvars = $SecondallVars -replace "\+$", ""
 
+write-host -foregroundcolor yellow $Thirdallvars
+
 ## Combine all the text
 $Finalvariable = Invoke-expression $Thirdallvars
 
@@ -162,14 +206,6 @@ $Finalvariable = $null
 $Thirdallvars = $null
 
 
-<#
-for ($j=0; $j -lt $Allvars.length; $j += 1){
-
-Invoke-expression $Allvars[$j]
-
-}
-#>
-
 
 ## ='.......   -replace "='.......", ";"
 
@@ -181,19 +217,15 @@ Invoke-expression $Allvars[$j]
 
 #$CombinedAll = $NewFinalArray
 
-
-
 ## Combine all variables into final string:
 # $Finalstring = $UVmYZ+$WXdw+$IJKLST+$rwST+$UVGHCD+$fSTq+$erl+$KLaf
 # invoke-expression $Finalstring
 
 
-
-
-
-## Newest issue:
-# When we have a 23 character string, for example, our logic tries to create a substring at index 20 with length 5, which throws an error
-
 ## IDEAS:
 # Implement switch case functionality instead of if/else
 # Can easily then manually handle all string length differences with modulus math to cover anything between divisble numbers of 1-5
+
+## Most recent issue:
+# Unable to handle spaces in path names, for example: I:\LSCC_Mfg Systems\OAR_Docs\powershell scripts    fails
+# Obv because of the way the path is interpreted needing to be in quotes, gotta handle this somehow
