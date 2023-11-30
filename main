@@ -4,7 +4,7 @@
 
 #$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
-$Stringtest = "one two three four five"
+$Stringtest = "get-childitem C:\Users\dejean"
 
 
 $Allstrings = $Stringtest.tochararray()
@@ -31,13 +31,9 @@ $Newvarname = ($Varname -join '').Trim() ## join into one line and remove whites
 
 
 
-## This part is strictly for capturing the first few characters as well
+## This part is strictly for capturing the first few characters as well - Section 1
 if ($Count -eq 0){
-
-write-host "Section 1....  $newstring"
-
 $Newvararray += $NewVarName
-
 $newstring = $Stringtest.Substring($Count, 5)
 $Fullarray += "$"
 $Fullarray += "$Newvarname="
@@ -45,22 +41,58 @@ $Fullarray += "'"
 $Fullarray += $newstring
 $Fullarray += "'"
 $Fullarray += ";"
-
+write-host "Section 1....  $newstring"
 }
 
 
 
 $Count += 1
-## Majority of script happens here
-if ($Count % 5 -eq 0){
 
-write-host "Section 2....  $newstring"
 
-write-host "Trying to create substring with count: $Count and length 5... Keep in mind the string length is $Stringlength"
+
+## Majority of script happens here - Section 2
+if ($Count % 5 -eq 0 -and $Count -ne $Stringlength){
 
 $Newvararray += $NewVarName
 
+try {
 $newstring = $Stringtest.Substring($Count, 5)
+}
+catch {write-error "String length is $Stringlength, we are at index $Count and we are trying to create a 5 character substring, which causes an error."}
+
+
+###
+
+# String length: 24
+if ($Count -eq ($Stringtest.Length -4)){
+try {$newstring = $Stringtest.Substring($FInalLength, 4)}
+catch {continue}
+}
+
+# String length: 23
+if ($Count -eq ($Stringtest.Length -3)){
+try {$newstring = $Stringtest.Substring($FInalLength, 3)}
+catch {continue}
+}
+
+# String length: 22
+if ($Count -eq ($Stringtest.Length -2)){
+try {$newstring = $Stringtest.Substring($FInalLength, 2)}
+catch {continue}
+}
+
+# String length: 21
+if ($Count -eq ($Stringtest.Length -1)){
+try {$newstring = $Stringtest.Substring($FInalLength, 1)}
+catch {continue}
+}
+
+###
+
+
+
+
+
 $Fullarray += "$"
 $Fullarray += "$Newvarname="
 $Fullarray += "'"
@@ -68,16 +100,17 @@ $Fullarray += $newstring
 $Fullarray += "'"
 $Fullarray += ";"
 
+write-host "Section 2....  $newstring"
+
 }
 
 
+<#
+# Section 3
 if ($Count -eq $Stringtest.Length){
-
 write-host "Section 3....  $newstring"
-
 $FinalLength = $Stringtest.Length -1
 $Newvararray += $NewVarName
-
 $newstring = $Stringtest.Substring($FInalLength, 1)
 $Fullarray += "$"
 $Fullarray += "$Newvarname="
@@ -86,34 +119,42 @@ $Fullarray += $newstring
 $Fullarray += "'"
 $Fullarray += ";"# Previously was +
 
-}
+write-host "Section 3....  $newstring"
+break
 
 }
+#>
+
+
+} ## end for loop
 
 
 ## Essentially the END block of script
 $newarray = $Fullarray -replace "\+$", "" ## replace the final '+' sign with nothing
 $Count = 0
-#return $newarray
 Invoke-Expression $newarray
-#$Fullarray = $null
-#$newarray = $null
-
-## Now that we have an array with all of the variable names we just loaded into memory (actually may need to use invoke-expression to load them into memory), let's combine them all
-#return $newvararray
 
 $Allvars = $newvararray -replace "^", "$" ## Get all variables into one single array
 
 $SecondAllVars = $Allvars -replace "$", "+" -join ""
 $ThirdAllvars = $SecondallVars -replace "\+$", ""
 
-
+## Combine all the text
 $Finalvariable = Invoke-expression $Thirdallvars
 
-
+## Actually call the command
 Invoke-expression $Finalvariable
 
+
+write-host $FinalVariable
 write-host "finished"
+
+
+$newarray = $null
+$Fullarray = $null
+$Finalvariable = $null
+$Thirdallvars = $null
+
 
 <#
 for ($j=0; $j -lt $Allvars.length; $j += 1){
@@ -149,3 +190,4 @@ Invoke-expression $Allvars[$j]
 
 ## IDEAS:
 # Implement switch case functionality instead of if/else
+# Can easily then manually handle all string length differences with modulus math to cover anything between divisble numbers of 1-5
