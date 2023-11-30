@@ -4,7 +4,7 @@
 
 #$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
-$Stringtest = "get-childitem C:\Users\xx\Documents"
+$Stringtest = "ping localhost"
 
 
 $Allstrings = $Stringtest.tochararray()
@@ -82,25 +82,29 @@ write-host "Section 2....  $newstring"
 
 # String length: 24
 if ($Count -eq ($Stringtest.Length -4)){
-try {$newstring = $Stringtest.Substring($FInalLength, 4)}
+write-host "Attempting -4 logic"
+try {$newstring = $Stringtest.Substring($Stringlength, 4)}
 catch {continue}
 }
 
 # String length: 23
 if ($Count -eq ($Stringtest.Length -3)){
-try {$newstring = $Stringtest.Substring($FInalLength, 3)}
+write-host "Attempting -3 logic"
+try {$newstring = $Stringtest.Substring($Stringlength, 3)}
 catch {continue}
 }
 
 # String length: 22
 if ($Count -eq ($Stringtest.Length -2)){
-try {$newstring = $Stringtest.Substring($FInalLength, 2)}
+write-host "Attempting -2 logic"
+try {$newstring = $Stringtest.Substring($Stringlength, 2)}
 catch {continue}
 }
 
 # String length: 21
 if ($Count -eq ($Stringtest.Length -1)){
-try {$newstring = $Stringtest.Substring($FInalLength, 1)}
+write-host "Attempting -1 logic"
+try {$newstring = $Stringtest.Substring($Stringlength, 1)}
 catch {continue}
 }
 
@@ -109,7 +113,7 @@ catch {continue}
 
 
 # Section 3
-if ($Count -eq $Stringtest.Length){
+if ($Count -eq $Stringtest.Length -and $newstring[-1] -notmatch $stringtest[-1]){
 write-host "Section 3....  $newstring"
 $FinalLength = $Stringtest.Length -1
 $Newvararray += $NewVarName
@@ -122,7 +126,7 @@ $Fullarray += "'"
 $Fullarray += ";"# Previously was +
 
 write-host "Section 3....  $newstring"
-break
+#break
 
 }
 
