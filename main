@@ -4,7 +4,7 @@
 
 #$Stringtest = "hello1 world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo middle hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo hello world this is a test string subsection yolo end"
 
-$Stringtest = "Get-Childitem C:\Users\dejeanj\"
+$Stringtest = "one two three four five"
 
 
 $Allstrings = $Stringtest.tochararray()
@@ -16,6 +16,8 @@ $Count = 0
 $NewVarArray = @()
 
 ## use get-random 
+
+$Stringlength = $Stringtest.Length
 
 
 ## Now we will try to create a separate array for every 5 characters
@@ -31,6 +33,8 @@ $Newvarname = ($Varname -join '').Trim() ## join into one line and remove whites
 
 ## This part is strictly for capturing the first few characters as well
 if ($Count -eq 0){
+
+write-host "Section 1....  $newstring"
 
 $Newvararray += $NewVarName
 
@@ -50,6 +54,10 @@ $Count += 1
 ## Majority of script happens here
 if ($Count % 5 -eq 0){
 
+write-host "Section 2....  $newstring"
+
+write-host "Trying to create substring with count: $Count and length 5... Keep in mind the string length is $Stringlength"
+
 $Newvararray += $NewVarName
 
 $newstring = $Stringtest.Substring($Count, 5)
@@ -64,6 +72,8 @@ $Fullarray += ";"
 
 
 if ($Count -eq $Stringtest.Length){
+
+write-host "Section 3....  $newstring"
 
 $FinalLength = $Stringtest.Length -1
 $Newvararray += $NewVarName
@@ -84,13 +94,13 @@ $Fullarray += ";"# Previously was +
 ## Essentially the END block of script
 $newarray = $Fullarray -replace "\+$", "" ## replace the final '+' sign with nothing
 $Count = 0
-return $newarray
+#return $newarray
 Invoke-Expression $newarray
 #$Fullarray = $null
 #$newarray = $null
 
 ## Now that we have an array with all of the variable names we just loaded into memory (actually may need to use invoke-expression to load them into memory), let's combine them all
-return $newvararray
+#return $newvararray
 
 $Allvars = $newvararray -replace "^", "$" ## Get all variables into one single array
 
@@ -102,6 +112,8 @@ $Finalvariable = Invoke-expression $Thirdallvars
 
 
 Invoke-expression $Finalvariable
+
+write-host "finished"
 
 <#
 for ($j=0; $j -lt $Allvars.length; $j += 1){
@@ -127,3 +139,13 @@ Invoke-expression $Allvars[$j]
 ## Combine all variables into final string:
 # $Finalstring = $UVmYZ+$WXdw+$IJKLST+$rwST+$UVGHCD+$fSTq+$erl+$KLaf
 # invoke-expression $Finalstring
+
+
+
+
+
+## Newest issue:
+# When we have a 23 character string, for example, our logic tries to create a substring at index 20 with length 5, which throws an error
+
+## IDEAS:
+# Implement switch case functionality instead of if/else
