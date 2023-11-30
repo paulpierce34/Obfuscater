@@ -101,5 +101,4 @@ $Thirdallvars = $null
 
 
 ## IDEAS:
-# Implement switch case functionality instead of if/else
-# Can easily then manually handle all string length differences with modulus math to cover anything between divisble numbers of 1-5
+## base64 encode final payload or even obfuscated strings before execution
